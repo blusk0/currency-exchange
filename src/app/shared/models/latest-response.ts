@@ -1,9 +1,10 @@
 export class LatestResponse {
   base: string;
   date: Date;
-  rates: Map<string, number>;
+  rates: object;
+  ratesArr: Array<{ id: string; value: number }>;
 
   constructor() {
-    this.rates = new Map<string, number>();
+    this.ratesArr = [];
   }
 }

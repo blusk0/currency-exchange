@@ -5,6 +5,9 @@ import { Currency } from './../../shared/models/currency';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
+import { Color, BaseChartDirective, Label } from 'ng2-charts';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -13,10 +16,44 @@ import { Observable } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
   quickSearchForm: FormGroup;
-  searching$: Observable<any>;
+  searching$: Observable<LatestResponse>;
+  historySearching$: Observable<any>;
   currencyMap = CurrencyMap;
   currentResults: LatestResponse;
   currentResultsAux: Map<string, Currency> = new Map<string, Currency>();
+  lineChartOptions = {
+    scales: {
+      xAxes: [
+        {
+          type: 'time',
+          time: {
+            unit: 'day',
+          },
+          ticks: {
+            fontColor: 'white',
+            fontSize: 18,
+            maxTicksLimit: 10,
+          },
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            labelString: 'Exchange Rate',
+            display: true,
+            fontColor: 'white',
+            fontSize: 18,
+          },
+          ticks: {
+            beginAtZero: true,
+            source: 'data',
+            fontColor: 'white',
+            fontSize: 18,
+          },
+        },
+      ],
+    },
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -35,23 +72,35 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    this.searching$ = this.exchangeRates.quickSearch(
-      this.quickSearchForm.get('baseCurrency').value,
-      this.quickSearchForm.get('compareCurrency').value
+    const base = this.quickSearchForm.get('baseCurrency').value;
+    const compare = this.quickSearchForm.get('compareCurrency').value;
+
+    this.searching$ = this.exchangeRates.quickSearch(base, compare);
+
+    this.historySearching$ = this.exchangeRates.history(
+      base,
+      compare,
+      moment().add(-1, 'month').toDate(),
+      new Date()
     );
 
-    const res = await this.searching$.toPromise();
-    console.dir(res.rates.keys());
+    const res = await Promise.all([
+      this.searching$.toPromise(),
+      this.historySearching$.toPromise(),
+    ]);
+
+    console.dir(res);
+
     this.currentResultsAux.set(
       'base',
-      CurrencyMap.find((cur) => cur.id === res.base)
+      CurrencyMap.find((cur) => cur.id === res[0].base)
     );
     this.currentResultsAux.set(
       'compare',
-      CurrencyMap.find((cur) => cur.id === res.rates.keys().next().value)
+      CurrencyMap.find((cur) => cur.id === res[0].ratesArr[0].id)
     );
 
-    this.currentResults = res;
+    this.currentResults = res[0];
   }
 
   clearSelection() {}

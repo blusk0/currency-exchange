@@ -1,3 +1,4 @@
+import { ChartsModule } from 'ng2-charts';
 import { SharedModule } from './../../shared/modules/shared.module';
 import { HomeComponent } from './home.component';
 import { RouterModule } from '@angular/router';
@@ -9,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [HomeComponent],
   imports: [
     CommonModule,
+    ChartsModule,
     SharedModule,
     ReactiveFormsModule,
     RouterModule.forChild([
