@@ -1,3 +1,4 @@
+import { LatestResponse } from './../../shared/models/latest-response';
 import { ExchangeRatesApiService } from './../../core/services/exchange-rates-api.service';
 import { CurrencyMap } from './../../shared/constants/currency-map';
 import { Currency } from './../../shared/models/currency';
@@ -14,6 +15,8 @@ export class HomeComponent implements OnInit {
   quickSearchForm: FormGroup;
   searching$: Observable<any>;
   currencyMap = CurrencyMap;
+  currentResults: LatestResponse;
+  currentResultsAux: Map<string, Currency> = new Map<string, Currency>();
 
   constructor(
     private fb: FormBuilder,
@@ -25,11 +28,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.quickSearchForm.valueChanges.subscribe((event) => {
-      console.dir(this.quickSearchForm.value);
-    });
-  }
+  ngOnInit(): void {}
 
   async searchCurrency() {
     if (!this.quickSearchForm.valid) {
@@ -41,6 +40,19 @@ export class HomeComponent implements OnInit {
       this.quickSearchForm.get('compareCurrency').value
     );
 
-    await this.searching$.toPromise();
+    const res = await this.searching$.toPromise();
+    console.dir(res.rates.keys());
+    this.currentResultsAux.set(
+      'base',
+      CurrencyMap.find((cur) => cur.id === res.base)
+    );
+    this.currentResultsAux.set(
+      'compare',
+      CurrencyMap.find((cur) => cur.id === res.rates.keys().next().value)
+    );
+
+    this.currentResults = res;
   }
+
+  clearSelection() {}
 }

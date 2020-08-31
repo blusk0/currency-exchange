@@ -1,6 +1,6 @@
 <div class="container">
   <div class="slight-card">
-    <h1 class="quick-search-heading">Quick Search</h1>
+    <h1 class="slight-card-heading">Quick Search</h1>
     <form [formGroup]="quickSearchForm" (ngSubmit)="searchCurrency()">
       <p class="search-prompt">How many
         <app-currency-search formControlName="compareCurrency"></app-currency-search> are in a <app-currency-search
@@ -9,7 +9,20 @@
           class="icon-fab blue search-button">
           <mat-icon>search</mat-icon>
         </button>
+        <button (click)="quickSearchForm.reset()" matTooltip="Clear Selection" type="button" mat-mini-fab
+          class="icon-fab orange search-button">
+          <mat-icon>undo</mat-icon>
+        </button>
       </p>
     </form>
+  </div>
+  <div class="slight-card" *ngIf="currentResults">
+    <h1 class="slight-card-heading blue">Results</h1>
+    <div class="results-subheading">
+      1 {{ currentResultsAux.get('base').name }} equals
+    </div>
+    <div class="results-main">
+      {{ currentResults.rates.values().next().value | number }} {{ currentResultsAux.get('compare').name }}
+    </div>
   </div>
 </div>
