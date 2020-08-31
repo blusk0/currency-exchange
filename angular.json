@@ -28,7 +28,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/app/styles/styles.scss",
+              "src/app/styles/theme.scss"
             ],
             "scripts": []
           },
@@ -92,7 +93,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/app/styles/styles.scss",
+              "src/app/styles/theme.scss"
             ],
             "scripts": []
           }
@@ -123,6 +125,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "currency-exchange"
+    }
+  },
+  "defaultProject": "currency-exchange",
+  "cli": {
+    "analytics": "456b8966-8e21-402f-adf7-c5cd340cd80b"
+  }
 }

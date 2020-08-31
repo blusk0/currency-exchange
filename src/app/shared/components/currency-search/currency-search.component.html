@@ -1,0 +1,8 @@
+<mat-form-field class="text-input-form-field">
+  <input class="text-input" [(ngModel)]="selectedCurrency" (keyup)="searchKeyUp($event)" matInput
+    [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="currencyDisplay">
+    <mat-option *ngFor="let currency of filteredCurrencies | async" [value]="currency">{{ currency.symbol }}
+      {{ currency.name }}</mat-option>
+  </mat-autocomplete>
+</mat-form-field>

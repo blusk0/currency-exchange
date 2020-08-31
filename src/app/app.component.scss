@@ -1,0 +1,26 @@
+.top-bar {
+  height: 80px;
+  background-color: #222;
+  border-bottom: 2px solid #111;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 0 10px;
+
+  .heading {
+    font-size: 30px;
+    color: #ccc;
+
+    b {
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+}
+
+.link-icon {
+  color: #f44336;
+  margin-right: 8px;
+}
