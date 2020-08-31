@@ -8,14 +8,29 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { HistoryResponse } from 'src/app/shared/models/history-response';
 
+/**
+ * Service to facilitate communication with the Exchange Rates API.
+ *
+ * @export
+ * @class ExchangeRatesApiService
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class ExchangeRatesApiService {
+  // URI root to the exchange rates API
   private uriRoot = 'https://api.exchangeratesapi.io';
 
   constructor(private httpClient: HttpClient) {}
 
+  /**
+   * Get the up to date exchange rate between two currencies.
+   *
+   * @param {Currency} baseCurrency The currency to use as a base.
+   * @param {Currency} compareCurrency The currency to compare with.
+   * @returns {Observable<LatestResponse>} Observable of LatestResponse object.
+   * @memberof ExchangeRatesApiService
+   */
   quickSearch(
     baseCurrency: Currency,
     compareCurrency: Currency
@@ -41,6 +56,16 @@ export class ExchangeRatesApiService {
       );
   }
 
+  /**
+   * Get historical relationship between two currencies for provided time period
+   *
+   * @param {Currency} baseCurrency The currency to use as a base.
+   * @param {Currency} compareCurrency The currency to compare with.
+   * @param {Date} startAt Start date for comparison.
+   * @param {Date} endAt Ending date for comparison.
+   * @returns {Observable<HistoryResponse>} Observable of type HistoryResponse.
+   * @memberof ExchangeRatesApiService
+   */
   history(
     baseCurrency: Currency,
     compareCurrency: Currency,
