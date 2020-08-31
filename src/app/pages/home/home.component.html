@@ -18,16 +18,24 @@
   </div>
   <div class="slight-card" *ngIf="currentResults">
     <h1 class="slight-card-heading blue">Results</h1>
-    <div class="results-data">
-      <div class="results-subheading">
-        1 {{ currentResultsAux.get('base').name }} equals
+    <div class="results-container">
+      <div class="results-data">
+        <div class="results-subheading">
+          1 {{ currentResultsAux.get('base').name }} equals
+        </div>
+        <div class="results-main">
+          {{ currentResults.ratesArr[0].value | number }} {{ currentResultsAux.get('compare').name }}
+        </div>
+        <div class="results-date">
+          {{ currentResults.date | date: 'MMMM d, y, h:mm:ss a z' }}
+        </div>
+        <div class="results-data-source">
+          Data provided by European Central Bank via ExchangeRates API.
+        </div>
       </div>
-      <div class="results-main">
-        {{ currentResults.ratesArr[0].value | number }} {{ currentResultsAux.get('compare').name }}
-      </div>
+      <div class="results-chart" *ngIf="lineChartData?.length">
+        <canvas baseChart width="400" height="400" [data]="lineChartData" [labels]="lineChartLabels"
+          [options]="lineChartOptions" [chartType]="'line'"></canvas> </div>
     </div>
-    <!-- <div class="results-chart">
-      <canvas baseChart width="400" height="400" [data]="lineChartData" [labels]="lineChartLabels"
-        [options]="lineChartOptions" [colors]="lineChartColors" [chartType]="'line'"></canvas> </div> -->
   </div>
 </div>

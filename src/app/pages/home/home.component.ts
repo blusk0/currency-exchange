@@ -1,3 +1,4 @@
+import { HistoryResponse } from './../../shared/models/history-response';
 import { LatestResponse } from './../../shared/models/latest-response';
 import { ExchangeRatesApiService } from './../../core/services/exchange-rates-api.service';
 import { CurrencyMap } from './../../shared/constants/currency-map';
@@ -17,11 +18,16 @@ import * as moment from 'moment';
 export class HomeComponent implements OnInit {
   quickSearchForm: FormGroup;
   searching$: Observable<LatestResponse>;
-  historySearching$: Observable<any>;
+  historySearching$: Observable<HistoryResponse>;
   currencyMap = CurrencyMap;
   currentResults: LatestResponse;
   currentResultsAux: Map<string, Currency> = new Map<string, Currency>();
+  lineChartData: Array<any>;
+  lineChartLabels: Array<any>;
   lineChartOptions = {
+    legend: {
+      display: false
+    },
     scales: {
       xAxes: [
         {
@@ -68,6 +74,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {}
 
   async searchCurrency() {
+    this.currentResults = undefined;
+    this.lineChartData = [];
+    this.lineChartLabels = [];
+
     if (!this.quickSearchForm.valid) {
       return;
     }
@@ -101,6 +111,11 @@ export class HomeComponent implements OnInit {
     );
 
     this.currentResults = res[0];
+
+    for (const rate of res[1].ratesArr) {
+      this.lineChartData.push(rate.value);
+      this.lineChartLabels.push(rate.date);
+    }
   }
 
   clearSelection() {}

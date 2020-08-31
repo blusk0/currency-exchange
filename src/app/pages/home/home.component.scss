@@ -1,3 +1,10 @@
+.results-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
 .search-prompt {
   font-size: 26px;
   text-align: center;
@@ -8,11 +15,24 @@
 }
 
 .results-subheading {
-  font-size: 18px;
+  font-size: 24px;
   color: #bbb;
 }
 
 .results-main {
   color: #fff;
-  font-size: 36px;
+  font-size: 48px;
+}
+
+.results-data {
+  margin-right: 40px;
+}
+
+.results-chart {
+  flex-grow: 1;
+}
+
+.results-data-source {
+  margin-top: 20px;
+  color: #bbb;
 }
