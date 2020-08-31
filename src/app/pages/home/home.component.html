@@ -3,8 +3,8 @@
     <h1 class="quick-search-heading">Quick Search</h1>
     <form [formGroup]="quickSearchForm" (ngSubmit)="searchCurrency()">
       <p class="search-prompt">How many
-        <app-currency-search formControlName="baseCurrency"></app-currency-search> are in a <app-currency-search
-          formControlName="compareCurrency"></app-currency-search>?
+        <app-currency-search formControlName="compareCurrency"></app-currency-search> are in a <app-currency-search
+          formControlName="baseCurrency"></app-currency-search>?
         <button [disabled]="!quickSearchForm.valid" matTooltip="Search" type="submit" mat-mini-fab
           class="icon-fab blue search-button">
           <mat-icon>search</mat-icon>

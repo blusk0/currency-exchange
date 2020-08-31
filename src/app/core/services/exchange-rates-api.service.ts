@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ExchangeRatesApiService {
-  private uriRoot = 'https://api.exchangeratesapi.io/';
+  private uriRoot = 'https://api.exchangeratesapi.io';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -16,10 +16,9 @@ export class ExchangeRatesApiService {
     compareCurrency: Currency
   ): Observable<any> {
     return this.httpClient.get(`${this.uriRoot}/latest`, {
-      params: new HttpParams().set(
-        'symbols',
-        `${baseCurrency.id},${compareCurrency.id}`
-      ),
+      params: new HttpParams()
+        .set('symbols', compareCurrency.id)
+        .set('base', baseCurrency.id),
     });
   }
 }
